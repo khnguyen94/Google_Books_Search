@@ -1,3 +1,4 @@
+// Import dependencies
 const express = require("express");
 const path = require("path");
 const PORT = process.env.PORT || 3001;
@@ -10,6 +11,19 @@ app.use(express.json());
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
+
+// Database configurations
+// Save the URL of our database as well as the name of our collection
+var databaseUrl = "googlebooks";
+var collections = ["books"];
+
+// Use mongojs to hook the database to the db variable
+var db = mongojs(databaseUrl, collections);
+
+// If mongodb runs into any errors, log them
+db.on("error", function(error) {
+  console.log("Database Error:", error);
+});
 
 // Define API routes here
 
